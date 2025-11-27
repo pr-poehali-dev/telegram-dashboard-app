@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { useEffect } from "react";
-import WebApp from '@vkruglikov/react-telegram-web-app';
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
@@ -13,8 +12,9 @@ const queryClient = new QueryClient();
 
 const App = () => {
   useEffect(() => {
-    if (WebApp.expand) {
-      WebApp.expand();
+    if (typeof window !== 'undefined' && (window as any).Telegram?.WebApp) {
+      const tg = (window as any).Telegram.WebApp;
+      tg.expand();
     }
     
     const urlParams = new URLSearchParams(window.location.search);
